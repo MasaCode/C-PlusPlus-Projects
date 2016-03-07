@@ -1,0 +1,24 @@
+Create the ship successfully
+Create the ship successfully
+Create the ship successfully
+Hit to (5 , 0 ) 
+Hit to (5 , 1 ) 
+Hit to (5 , 2 ) 
+Hit to (2 , 5 ) 
+Hit to (3 , 6 ) 
+Hit to (3 , 7 ) 
+Create the ship successfully
+Create the ship successfully
+Create the ship successfully
+Hit to (4 , 0 ) 
+Hit to (5 , 1 ) 
+Hit to (6 , 2 ) 
+Miss to (3 , 0 ) 
+Miss to (5 , 0 ) 
+Hit to (4 , 1 ) 
+Miss to (4 , 2 ) 
+Miss to (5 , 2 ) 
+Miss to (6 , 1 ) 
+Miss to (3 , 1 ) 
+Hit to (6 , 3 ) 
+Hit to (6 , 4 ) 
