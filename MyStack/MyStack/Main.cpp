@@ -7,7 +7,6 @@ using std::endl;
 
 void main(){
 	MyStack stack(20);
-	int temp;
 	
 	if (stack.empty())
 		cout << "Stack is empty.." << endl;
@@ -20,8 +19,7 @@ void main(){
 	cout << "The length of stack is " << stack.Length() << endl;
 
 	cout << "The Elements of Stack are ";
-	temp = stack.Length();
-	for (int i = 0; i < temp; i++){
+	while (!stack.empty()){
 		cout << stack.top() << " ";
 		stack.pop();
 	}
