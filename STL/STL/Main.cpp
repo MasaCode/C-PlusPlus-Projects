@@ -525,7 +525,7 @@ void Queue(){
 				break;
 			case 2 :
 				if (value.empty()){
-					cout << endl << "The Queue is empty..." << endl << endl;
+					cout << endl << "\tThe Queue is empty..." << endl << endl;
 					break;
 				}
 				cout << endl << "\tPoped " << value.front() << " from Queue" << endl << endl;
@@ -539,6 +539,39 @@ void Queue(){
 				}
 				cout << endl << endl;
 				break;
+			default :
+				return;
+			}
+		}
+	}
+}
+
+void PriorityQueue(){
+	int  menu;
+	std::priority_queue<int> value;
+	while (true){
+		menu = PriorityQueueMenu();
+		if (menu <= PriorityQueueMaxMenuNumber){
+			switch (menu){
+			case 1 :
+				value.push(InputNumber());
+				break;
+			case 2 :
+				if (!value.empty()){
+					cout << endl << "\tPoped " << value.top() << " from Priority Queue." << endl << endl;
+					value.pop();
+				}
+				else{
+					cout << endl << "\tThe Priority Queue is empty.." << endl << endl;
+				}
+				break;
+			case 3 :
+				cout << endl << "\tThe Elements of Priority Queue are ";
+				while (!value.empty()){
+					cout << value.top() << " ";
+					value.pop();
+				}
+				cout << endl << endl;
 			default :
 				return;
 			}
@@ -581,6 +614,9 @@ void main(){
 				break;
 			case 9 :
 				Queue();
+				break;
+			case 10 :
+				PriorityQueue();
 				break;
 			default:
 				break; // end proccess
