@@ -1,0 +1,6 @@
+4 ccc ccccc 3222
+9 ffff fffffff 1000
+12 eeeee eeeee 3933
+7 dddd dddddd 3333
+65 bbbbb bbbbb 2322
+4 aaaaa aaaa 32323
