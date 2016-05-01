@@ -1,0 +1,6 @@
+Debugging : I am creating a singleton class.
+Error : Wrong Password.....
+Warning : The variable is never used.
+Debugging : I am creating a singleton class.
+Error : Wrong Password.....
+Warning : The variable is never used.
