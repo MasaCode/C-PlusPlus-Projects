@@ -1,0 +1,22 @@
+﻿Build started 2016-05-18 9:06:18 PM.
+     1>Project "C:\Users\803 7496\Documents\ITD Canada\Althorism & Design Pattern2\Projects\SnakesAndLadders\SnakesAndLadders\SnakesAndLadders.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib MainForm.cpp
+         MainForm.cpp
+     1>c:\users\803 7496\documents\itd canada\althorism & design pattern2\projects\snakesandladders\snakesandladders\MainForm.h(202): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned long', possible loss of data
+     1>c:\users\803 7496\documents\itd canada\althorism & design pattern2\projects\snakesandladders\snakesandladders\MainForm.h(595): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned long', possible loss of data
+     1>c:\users\803 7496\documents\itd canada\althorism & design pattern2\projects\snakesandladders\snakesandladders\MainForm.h(599): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>MainForm.cpp(6): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\803 7496\Documents\ITD Canada\Althorism & Design Pattern2\Projects\SnakesAndLadders\Debug\SnakesAndLadders.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:Debug\SnakesAndLadders.MainForm.resources /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\803 7496\Documents\ITD Canada\Althorism & Design Pattern2\Projects\SnakesAndLadders\Debug\SnakesAndLadders.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\Cell.obj
+         Debug\GameObject.obj
+         Debug\Ladder.obj
+         Debug\MainForm.obj
+         Debug\Snake.obj
+         "Debug\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+         SnakesAndLadders.vcxproj -> C:\Users\803 7496\Documents\ITD Canada\Althorism & Design Pattern2\Projects\SnakesAndLadders\Debug\SnakesAndLadders.exe
+     1>Done Building Project "C:\Users\803 7496\Documents\ITD Canada\Althorism & Design Pattern2\Projects\SnakesAndLadders\SnakesAndLadders\SnakesAndLadders.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.40
