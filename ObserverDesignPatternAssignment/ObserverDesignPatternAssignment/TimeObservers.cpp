@@ -6,8 +6,12 @@
 
 CivilianTime::CivilianTime(TimeSubject* subject) : Observer(subject)
 {
-	//_subject = subject;
-	//_subject->registerObserver(this);
+	//Empty
+}
+
+CivilianTime::~CivilianTime()
+{
+	//Empty
 }
 
 void CivilianTime::update(){
@@ -27,15 +31,19 @@ void CivilianTime::showtime(){
 	}
 
 	std::string time = timeState == Time_State::AM ? "am" : "pm";
-	std::cout << "Current Time : " << hour << " : " << getSubject()->getMinute() << " : " << getSubject()->getSecond() << " , " << time << std::endl;
+	std::cout << "Civilian Time : " << hour << " : " << getSubject()->getMinute() << " : " << getSubject()->getSecond() << " , " << time << std::endl;
 }
 
 ////////////////////////////////////////// Military Time Observer //////////////////////////////////////////
 
 MilitaryTime::MilitaryTime(TimeSubject* subject) : Observer(subject)
 {
-	//_subject = subject;
-	//_subject->registerObserver(this);
+	//Empty
+}
+
+MilitaryTime::~MilitaryTime()
+{
+	//Empty
 }
 
 
@@ -50,7 +58,7 @@ void MilitaryTime::showtime(){
 	if (getSubject()->getTimeState() == Time_State::PM){
 		hour += 12;
 	}
-	std::cout << "Current Time : " << hour << " : " << getSubject()->getMinute() << " : " << getSubject()->getSecond() << std::endl;
+	std::cout << "Military Time : " << hour << " : " << getSubject()->getMinute() << " : " << getSubject()->getSecond() << std::endl;
 }
 
 
@@ -58,8 +66,12 @@ void MilitaryTime::showtime(){
 
 ZuluTime::ZuluTime(TimeSubject* subject) : Observer(subject)
 {
-	//_subject = subject;
-	//_subject->registerObserver(this);
+	//Empty
+}
+
+ZuluTime::~ZuluTime()
+{
+	//Empty
 }
 
 void ZuluTime::update(){
@@ -142,5 +154,5 @@ void ZuluTime::showtime(){
 	default:
 		std::cout << "I dont know what you are inputting." << std::endl;
 	}
-	std::cout << "Current Time : " << hour << " : " << getSubject()->getMinute() << " : " << getSubject()->getSecond() << " , " << area << std::endl;
+	std::cout << "Zulu Time     : " << hour << " : " << getSubject()->getMinute() << " : " << getSubject()->getSecond() << " , " << area << std::endl;
 }

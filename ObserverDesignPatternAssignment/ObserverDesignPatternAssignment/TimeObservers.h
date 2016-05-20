@@ -6,6 +6,7 @@
 class CivilianTime : public Observer{
 public:
 	CivilianTime(TimeSubject* subject);
+	~CivilianTime();
 
 	void update() override;
 	void showtime() override;
@@ -16,6 +17,7 @@ public:
 class MilitaryTime : public Observer{
 public:
 	MilitaryTime(TimeSubject* subject);
+	~MilitaryTime();
 
 	void update() override;
 	void showtime() override;
@@ -26,6 +28,7 @@ public:
 class ZuluTime : public Observer{
 public:
 	ZuluTime(TimeSubject* subject);
+	~ZuluTime();
 
 	void update() override;
 	void showtime() override;

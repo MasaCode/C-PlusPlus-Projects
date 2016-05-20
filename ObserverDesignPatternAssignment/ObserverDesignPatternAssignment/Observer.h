@@ -11,6 +11,8 @@ public:
 		subject->registerObserver(this);
 	}
 
+	virtual ~Observer(){}
+
 	virtual void update() = 0;
 	virtual void showtime() = 0;
 protected:
