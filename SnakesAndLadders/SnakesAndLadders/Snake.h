@@ -6,7 +6,7 @@ public:
 	Snake();
 	~Snake();
 
-	void setString(String^ top, String^ bottom);
+	void setString(String^ top, String^ bottom) override;
 	
 
 	

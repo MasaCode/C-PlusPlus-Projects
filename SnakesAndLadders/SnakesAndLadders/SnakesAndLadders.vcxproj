@@ -83,6 +83,7 @@
     <ClCompile Include="Ladder.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="Treasure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
@@ -92,6 +93,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Snake.h" />
+    <ClInclude Include="Treasure.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

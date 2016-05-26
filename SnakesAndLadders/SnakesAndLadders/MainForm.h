@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
 #include <algorithm>
 #include <ctime>
 #include <random>
@@ -10,6 +8,7 @@
 #include "Cell.h"
 #include "Snake.h"
 #include "Ladder.h"
+#include "Treasure.h"
 
 namespace SnakesAndLadders {
 
@@ -27,6 +26,7 @@ namespace SnakesAndLadders {
 	const int ARRAY_SIZE = 196;
 	const int NUM_SNAKE = 5;
 	const int NUM_LADDER = 5;
+	const int NUM_TREASURE = 5;
 
 
 	/// <summary>
@@ -49,6 +49,7 @@ namespace SnakesAndLadders {
 			_gameGrid = gcnew array<Cell^>(ARRAY_SIZE);
 			_snakes = gcnew array<Snake^>(NUM_SNAKE);
 			_ladders = gcnew array<Ladder^>(NUM_LADDER);
+			_treasures = gcnew array<Treasure^>(NUM_TREASURE);
 			
 			_snakeHead = gcnew array<String^>(NUM_SNAKE);
 			_snakeTail = gcnew array<String^>(NUM_SNAKE);
@@ -57,7 +58,10 @@ namespace SnakesAndLadders {
 				_snakeTail[i] = "Pics/tail" + (i + 1).ToString() + ".png";
 			}
 
-
+			_player1Pic = gcnew array<Image^>(2);
+			_player2Pic = gcnew array<Image^>(2);
+			_floorImg = gcnew Bitmap("Pics/floor.png");
+			_diceImg = gcnew array<Image^>(6);
 
 		}
 
@@ -88,9 +92,16 @@ namespace SnakesAndLadders {
 		array<Cell^>^ _gameGrid;
 		array<Snake^>^ _snakes;
 		array<Ladder^>^ _ladders;
+		array<Treasure^>^ _treasures;
 
 		array<String^>^ _snakeHead;
 		array<String^>^ _snakeTail;
+
+		array<Image^>^ _player1Pic;
+		array<Image^>^ _player2Pic;
+		//array<Image^>^ _floorObjectPic; //floor and treasure.
+		array<Image^>^ _diceImg;
+		Image^ _floorImg;
 
 		int _playerOneIndex = -1;
 		int _playerTwoIndex = -1;
@@ -104,9 +115,15 @@ namespace SnakesAndLadders {
 
 		bool isReachedgoal = false;
 
+		int _playerOnePoint = 0;
+		int _playerTwoPoint = 0;
+
 	private: System::Windows::Forms::Button^  PlayButton;
 	private: System::Windows::Forms::PictureBox^  dicePic;
 	private: System::Windows::Forms::Label^  PlayerLabel;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Label^  player1Point;
+	private: System::Windows::Forms::Label^  player2Point;
 
 
 
@@ -129,6 +146,9 @@ namespace SnakesAndLadders {
 			this->PlayButton = (gcnew System::Windows::Forms::Button());
 			this->dicePic = (gcnew System::Windows::Forms::PictureBox());
 			this->PlayerLabel = (gcnew System::Windows::Forms::Label());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->player1Point = (gcnew System::Windows::Forms::Label());
+			this->player2Point = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dicePic))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -176,11 +196,47 @@ namespace SnakesAndLadders {
 			this->PlayerLabel->Text = L"Player1";
 			this->PlayerLabel->Visible = false;
 			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->Location = System::Drawing::Point(16, 159);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(89, 36);
+			this->label1->TabIndex = 4;
+			this->label1->Text = L"Point";
+			// 
+			// player1Point
+			// 
+			this->player1Point->AutoSize = true;
+			this->player1Point->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->player1Point->Location = System::Drawing::Point(17, 219);
+			this->player1Point->Name = L"player1Point";
+			this->player1Point->Size = System::Drawing::Size(79, 29);
+			this->player1Point->TabIndex = 5;
+			this->player1Point->Text = L"P1 : 0";
+			// 
+			// player2Point
+			// 
+			this->player2Point->AutoSize = true;
+			this->player2Point->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->player2Point->Location = System::Drawing::Point(17, 257);
+			this->player2Point->Name = L"player2Point";
+			this->player2Point->Size = System::Drawing::Size(79, 29);
+			this->player2Point->TabIndex = 6;
+			this->player2Point->Text = L"P2 : 0";
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(986, 740);
+			this->Controls->Add(this->player2Point);
+			this->Controls->Add(this->player1Point);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->PlayerLabel);
 			this->Controls->Add(this->dicePic);
 			this->Controls->Add(this->PlayButton);
@@ -250,6 +306,22 @@ namespace SnakesAndLadders {
 
 	}
 
+	private: System::Void initTreasure(){
+				 int i = 0;
+				 std::mt19937 randomEngine(time(nullptr));
+				 std::uniform_int_distribution<int> treasureLocation(0, ARRAY_SIZE - 1);
+				 while (i < NUM_TREASURE){
+					 int locationIndex = treasureLocation(randomEngine);
+					 if (_gameGrid[locationIndex]->getSymbol() == 'E'){
+						 _treasures[i] = gcnew Treasure();
+						 _treasures[i]->setString("Pics/treasure" + ((i % 3) + 1).ToString() + ".png");
+						 _treasures[i]->init(_gameGrid[locationIndex]->getPoint(), locationIndex, PIC_SIZE,(i*5 + 1));
+						 _gameGrid[locationIndex]->setSymbol('P');
+						 i++;
+					 }
+				 }
+	}
+
 	private: System::Void PrintGrid(){
 				 std::string buffer = "";
 				 for (int i = 0; i < ARRAY_SIZE; i++){
@@ -265,13 +337,30 @@ namespace SnakesAndLadders {
 
 	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		int x = MARGIN*2, y = MARGIN/2;
+
+		//Pics
+		_diceImg[0] = gcnew Bitmap("Pics/one.png");
+		_diceImg[1] = gcnew Bitmap("Pics/two.png");
+		_diceImg[2] = gcnew Bitmap("Pics/three.png");
+		_diceImg[3] = gcnew Bitmap("Pics/four.png");
+		_diceImg[4] = gcnew Bitmap("Pics/five.png");
+		_diceImg[5] = gcnew Bitmap("Pics/six.png");
+
+		
+
+		_player1Pic[0] = gcnew Bitmap("Pics/playerOnebase.png");
+		_player1Pic[1] = gcnew Bitmap("Pics/playerOne.png");
+		_player2Pic[0] = gcnew Bitmap("Pics/playerTwobase.png");
+		_player2Pic[1] = gcnew Bitmap("Pics/playerTwo.png");
+		
+
 			for (int i = 0; i < ARRAY_SIZE; i++){
 				_pics[i] = gcnew System::Windows::Forms::PictureBox();
 				_pics[i]->Name = i.ToString();
 				_pics[i]->Location = System::Drawing::Point(x, y);
 				_pics[i]->Size = System::Drawing::Size(PIC_SIZE, PIC_SIZE);
 				_pics[i]->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-				_pics[i]->Image = gcnew Bitmap("Pics/floor.png");
+				_pics[i]->Image = _floorImg; //Default floor image.
 				this->Controls->Add(this->_pics[i]);
 
 				if (((i + 1) % ROW_SIZE) == 0){
@@ -320,54 +409,35 @@ namespace SnakesAndLadders {
 
 
 			initObjects();
+			initTreasure();
 
 			PlayButton->Enabled = false;
 			PlayButton->Visible = false;
 
 	}
 
-	private: System::Void drawPlayers(System::Windows::Forms::PictureBox^ _player, System::String^ path, System::Drawing::Point point){
+	private: System::Void drawPlayers(System::Windows::Forms::PictureBox^ _player, Image^ image, System::Drawing::Point point){
 				 //Make Sure if you wanna draw on the gameGrid, you need to remove the picturebox.
 				 _player->Location = point;
 				 _player->Size = System::Drawing::Size(PIC_SIZE, PIC_SIZE);
 				 _player->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-				 _player->Image = gcnew Bitmap(path);
+				 _player->Image = image;
 				 this->Controls->Add(_player);
 	}
 
 	private: System::Void drawDice(int number){
-				 switch (number){
-				 case 1:
-					 this->dicePic->Image = gcnew Bitmap("Pics/one.png");
-					 break;
-				 case 2:
-					 this->dicePic->Image = gcnew Bitmap("Pics/two.png");
-					 break;
-				 case 3:
-					 this->dicePic->Image = gcnew Bitmap("Pics/three.png");
-					 break;
-				 case 4:
-					 this->dicePic->Image = gcnew Bitmap("Pics/four.png");
-					 break;
-				 case 5:
-					 this->dicePic->Image = gcnew Bitmap("Pics/five.png");
-					 break;
-				 case 6:
-					 this->dicePic->Image = gcnew Bitmap("Pics/six.png");
-					 break;
-				 default:
-					 MessageBox::Show("WOOOW its wrong number");
-					 break;
+				 if (number < 7 && number > 0){
+					 this->dicePic->Image = _diceImg[number - 1];
 				 }
 	}
 
 	private: System::Void StartButton_Click(System::Object^  sender, System::EventArgs^  e) {
 
 				 _firstPlayerOnePoint = System::Drawing::Point(-PIC_SIZE + _gameGrid[0]->getX(), _gameGrid[0]->getY());
-				 drawPlayers(_player1, "Pics/playerOnebase.png",_firstPlayerOnePoint);
+				 drawPlayers(_player1, _player1Pic[0],_firstPlayerOnePoint);
 
 				 _firstPlayerTwoPoint = System::Drawing::Point(-PIC_SIZE + _gameGrid[0]->getX(), -PIC_SIZE + _gameGrid[0]->getY());
-				 drawPlayers(_player2, "Pics/playerTwobase.png", _firstPlayerTwoPoint);
+				 drawPlayers(_player2, _player2Pic[0], _firstPlayerTwoPoint);
 
 				 
 				 for (int i = 0; i < NUM_SNAKE; i++){
@@ -395,6 +465,11 @@ namespace SnakesAndLadders {
 				 }
 
 
+				 for (int i = 0; i < NUM_TREASURE; i++){
+					 _pics[_gameGrid[_treasures[i]->getTopIndex()]->getIndex()]->Visible = false;
+					 this->Controls->Add(_treasures[i]->drawTop());
+				 }
+
 
 				 StartButton->Enabled = false;
 				 StartButton->Visible = false;
@@ -406,7 +481,7 @@ namespace SnakesAndLadders {
 				 PlayerLabel->Visible = true;
 				
 				 //drawing the dice image here
-				 this->dicePic->Image = gcnew Bitmap("Pics/one.png");
+				 this->dicePic->Image = _diceImg[0];
 				 this->dicePic->BorderStyle = BorderStyle::FixedSingle;
 
 				 //PrintGrid();
@@ -427,7 +502,7 @@ namespace SnakesAndLadders {
 				 }
 				 else{
 					 _playerOneIndex = number;
-					 _player1->Image = gcnew Bitmap("Pics/playerOne.png");
+					 _player1->Image = _player1Pic[1];
 				 }
 					
 
@@ -435,14 +510,14 @@ namespace SnakesAndLadders {
 
 				 if (_playerOneIndex > ARRAY_SIZE && !isReachedgoal){
 					 _player1->Location = _firstPlayerOnePoint;
-					 _player1->Image = gcnew Bitmap("Pics/playerOnebase.png");
+					 _player1->Image = _player1Pic[0];
 					 _playerOneIndex = -1;
 				 }else if (_playerOneIndex == ARRAY_SIZE){
 					 //Player1 reached the goal
 					 if (isReachedgoal){
 						 _player1->Location = _goal->Location;
 						 _player1->Image = gcnew Bitmap("Pics/playersgoal.png");
-						 MessageBox::Show("Both of player win!!!!!!");
+						 MessageBox::Show("Both of player win!!!!!! \nPlayer1 : " + _playerOnePoint.ToString() + " point \nPlayer2 : " + _playerTwoPoint.ToString() + " point");
 						 exit(0);
 
 					 }
@@ -457,7 +532,7 @@ namespace SnakesAndLadders {
 				 }else{
 					 //Check if the other player is already reached the goal
 					 if (isReachedgoal){
-						 MessageBox::Show("Player2 win!!!!!!");
+						 MessageBox::Show("Player2 win!!!!!!\nPlayer1 : " + _playerOnePoint.ToString() + " point \nPlayer2 : " + _playerTwoPoint.ToString() + " point");
 						 exit(0);
 					 }
 
@@ -484,6 +559,20 @@ namespace SnakesAndLadders {
 							 }
 						 }
 					 }
+					 else if (symbol == 'P'){
+						 for (int i = 0; i < NUM_TREASURE; i++){
+							 if (_treasures[i]->getTopIndex() == _playerOneIndex){
+								 _player1->Location = _treasures[i]->getTopLocation();
+								 _playerOnePoint += _treasures[i]->getPoint();
+								 player1Point->Text = "P1 : " + _playerOnePoint.ToString();
+
+								 _treasures[i]->setPoint(0);
+								 _gameGrid[_treasures[i]->getTopIndex()]->setSymbol('E');
+								 _treasures[i]->VisibleTop(false);
+
+							 }
+						 }
+					 }
 					 else{
 
 						 _player1->Location = _gameGrid[_playerOneIndex]->getPoint();
@@ -499,7 +588,7 @@ namespace SnakesAndLadders {
 						 _player1->Image = gcnew Bitmap("Pics/players.png");
 					 }
 					 else if (!isVisiblePlayerOne){
-						 _player1->Image = gcnew Bitmap("Pics/playerOne.png");
+						 _player1->Image = _player1Pic[1];
 						 isVisiblePlayerOne = true;
 					 }
 
@@ -517,20 +606,20 @@ namespace SnakesAndLadders {
 				 }
 				 else{
 					 _playerTwoIndex = number;
-					 _player2->Image = gcnew Bitmap("Pics/playerTwo.png");
+					 _player2->Image = _player2Pic[1];
 				 }
 
 
 				 //From here I need to think about how to cllide with snakes&ladders.
 				 if (_playerTwoIndex > ARRAY_SIZE && !isReachedgoal){
 					 _player2->Location = _firstPlayerTwoPoint;
-					 _player2->Image = gcnew Bitmap("Pics/playerTwobase.png");
+					 _player2->Image = _player2Pic[0];
 					 _playerTwoIndex = -1;
 				 }
 				 else if (_playerTwoIndex == ARRAY_SIZE){
 					 _player2->Location = _goal->Location;
 					 if (isReachedgoal){
-						 MessageBox::Show("Both of player win!!!!!!");
+						 MessageBox::Show("Both of player win!!!!!! \nPlayer1 : " + _playerOnePoint.ToString() + " point \nPlayer2 : " + _playerTwoPoint.ToString() + " point");
 						 exit(0);
 					 }
 					 else{
@@ -541,7 +630,7 @@ namespace SnakesAndLadders {
 				 }else{
 					 //Check if the other player is already reached the goal
 					 if (isReachedgoal){
-						 MessageBox::Show("Player1 win!!!!!!");
+						 MessageBox::Show("Player1 win!!!!!!\nPlayer1 : " + _playerOnePoint.ToString() + " point \nPlayer2 : " + _playerTwoPoint.ToString() + " point");
 						 exit(0);
 					 }
 
@@ -567,6 +656,20 @@ namespace SnakesAndLadders {
 						 }
 
 					 }
+					 else if (symbol == 'P'){
+						 for (int i = 0; i < NUM_TREASURE; i++){
+							 if (_treasures[i]->getTopIndex() == _playerTwoIndex){
+								 _player2->Location = _treasures[i]->getTopLocation();
+								 _playerTwoPoint += _treasures[i]->getPoint();
+								 player2Point->Text = "P2 : " + _playerTwoPoint.ToString();
+
+
+								 _treasures[i]->setPoint(0);
+								 _gameGrid[_treasures[i]->getTopIndex()]->setSymbol('E');
+								 _treasures[i]->VisibleTop(false);
+							 }
+						 }
+					 }
 					 else{
 
 
@@ -582,7 +685,7 @@ namespace SnakesAndLadders {
 
 					 }
 					 else if (!isVisiblePlayerTwo){
-						 _player1->Image = gcnew Bitmap("Pics/playerOne.png");
+						 _player1->Image = _player1Pic[1];
 						 isVisiblePlayerTwo = true;
 
 					 }

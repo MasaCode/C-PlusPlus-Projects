@@ -30,6 +30,9 @@
     <ClCompile Include="Ladder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Treasure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ladder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

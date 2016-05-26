@@ -12,7 +12,6 @@ Ladder::~Ladder(){
 	if (_isCreated){
 		deletePics();
 	}
-
 }
 
 /*

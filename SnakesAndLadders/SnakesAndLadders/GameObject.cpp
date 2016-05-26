@@ -31,6 +31,19 @@ void GameObject::init(System::Drawing::Point top, System::Drawing::Point bottom,
 	}
 }
 
+void GameObject::init(System::Drawing::Point location, int index, int PicSize,int point){
+	_locationTop = location;
+	_TopIndex = index;
+	if (!_isCreated){
+		_topPic = gcnew PictureBox();
+		_topPic->Size = System::Drawing::Size(PicSize, PicSize);
+		_topPic->SizeMode = PictureBoxSizeMode::StretchImage;
+		_topPic->Image = gcnew System::Drawing::Bitmap(_topPath);
+		_point = point;
+		_isCreated = true;
+	}
+}
+
 PictureBox^ GameObject::drawTop(){
 	//Make Sure if you wanna draw on the gameGrid, you need to remove the picturebox.
 	_topPic->Location = _locationTop;
@@ -73,12 +86,20 @@ int GameObject::getBottomIndex(){
 	return _BottomIndex;
 }
 
+int GameObject::getPoint(){
+	return _point;
+}
+
 System::Drawing::Point GameObject::getTopLocation(){
 	return _locationTop;
 }
 
 System::Drawing::Point GameObject::getBottomLocation(){
 	return _locationBottom;
+}
+
+void GameObject::setPoint(int point){
+	_point = point;
 }
 
 void GameObject::deletePics(){
